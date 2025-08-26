@@ -1,0 +1,19 @@
+import { sectionContents } from '../../database/content_section'
+import { db } from '../../db'
+import { eq } from 'drizzle-orm'
+
+export default defineEventHandler(async (event) => {
+  // GET: Ambil semua konten section (bisa filter dengan section_id)
+  const section_id = event.context.params?.section_id || event.context.query?.section_id
+  if (section_id) {
+    const contents = await db
+      .select()
+      .from(sectionContents)
+      .where(eq(sectionContents.section_id, section_id))
+      .orderBy(sectionContents.order)
+    return contents
+  }
+  // Jika tidak ada section_id, ambil semua
+  const contents = await db.select().from(sectionContents)
+  return contents
+})

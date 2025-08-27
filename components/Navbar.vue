@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 w-full flex justify-between items-center px-4 sm:px-10 py-3 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 shadow-lg backdrop-blur-md font-poppins z-[9999999] border-b-4 border-yellow-400">
+  <nav class="fixed top-0 left-0 right-0 w-full flex justify-between items-center px-4 sm:px-10 py-3 bg-[#C2E7F6] shadow-lg backdrop-blur-md font-poppins z-[9999999] border-b-4 border-yellow-600">
     <!-- Logo & Brand -->
     <div class="flex items-center gap-4">
       <a href="/">
@@ -7,17 +7,17 @@
       </a>
      
       <div class="hidden md:block">
-        <h1 class="text-white font-bold text-xl md:text-2xl tracking-wide drop-shadow-lg" style="text-shadow:0 0 8px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.3);">
-          Makarti Corpu
+        <h1 class="text-black font-bold text-xl md:text-2xl tracking-wide drop-shadow-lg" style="text-shadow:0 0 8px #C2E7F6, 0 2px 4px rgba(0,0,0,0.3);">
+          Makarti Learning Center
         </h1>
-        <p class="text-yellow-200 text-sm font-medium opacity-90">Learning Management System</p>
+  <p class="text-yellow-600 text-sm font-medium opacity-90">Learning Management System</p>
       </div>
     </div>
 
     <!-- Hamburger Menu Button (Mobile) -->
     <button 
       @click="isMenuOpen = !isMenuOpen"
-      class="lg:hidden text-white p-2 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300/50"
+  class="lg:hidden text-black p-2 hover:bg-yellow-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50"
     >
       <svg 
         class="w-6 h-6" 
@@ -45,14 +45,14 @@
     <!-- Mobile Menu -->
     <div 
       v-if="isMenuOpen" 
-      class="lg:hidden fixed inset-0 top-[73px] bg-gradient-to-b from-blue-900/95 to-blue-800/95 backdrop-blur-sm z-50"
+  class="lg:hidden fixed inset-0 top-[73px] bg-[#C2E7F6] backdrop-blur-sm z-50"
     >
       <div class="p-4 space-y-4">
         <ul class="space-y-3">
           <li>
             <a 
               href="/" 
-              class="block px-4 py-3 rounded-xl font-medium text-base text-blue-50 hover:bg-blue-700/50 hover:text-yellow-300 transition-all duration-300"
+              class="block px-4 py-3 rounded-xl font-medium text-base text-black hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300"
               @click="isMenuOpen = false"
             >
               Beranda
@@ -61,7 +61,7 @@
           <li>
             <a 
               href="/course/" 
-              class="block px-4 py-3 rounded-xl font-medium text-base text-blue-50 hover:bg-blue-700/50 hover:text-yellow-300 transition-all duration-300"
+              class="block px-4 py-3 rounded-xl font-medium text-base text-black hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300"
               @click="isMenuOpen = false"
             >
               Materi
@@ -70,7 +70,7 @@
           <li>
             <a 
               href="/my/" 
-              class="block px-4 py-3 rounded-xl font-medium text-base text-blue-50 hover:bg-blue-700/50 hover:text-yellow-300 transition-all duration-300"
+              class="block px-4 py-3 rounded-xl font-medium text-base text-black hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300"
               @click="isMenuOpen = false"
             >
               Kursus Saya
@@ -78,7 +78,7 @@
           </li>
           <li>
             <a href="/Makarti_forum" 
-               class="block px-4 py-3 rounded-xl font-medium text-base text-blue-50 hover:bg-blue-700/50 hover:text-yellow-300 transition-all duration-300"
+              class="block px-4 py-3 rounded-xl font-medium text-base text-black hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300"
                @click="isMenuOpen = false">
               Makarti Forum
             </a>
@@ -86,16 +86,16 @@
         </ul>
 
         <!-- Mobile Login/User Button -->
-        <div class="pt-4 border-t border-blue-700/50">
+  <div class="pt-4 border-t border-yellow-600/50">
           <template v-if="auth.isLoggedIn">
             <div class="space-y-4">
-              <span class="block text-blue-50 font-medium px-4">
-                <i class="fas fa-user-circle mr-2 text-yellow-300"></i>
+              <span class="block text-black font-medium px-4">
+                <i class="fas fa-user-circle mr-2 text-yellow-600"></i>
                 {{ auth.user?.name }}
               </span>
               <button 
                 @click="auth.logout(); $router.push('/'); isMenuOpen = false" 
-                class="w-full bg-blue-700/50 text-yellow-300 border border-yellow-300/20 py-3 px-4 rounded-xl font-medium hover:bg-blue-600/50 transition-all duration-300"
+                class="w-full bg-yellow-600 text-black border border-yellow-600/20 py-3 px-4 rounded-xl font-medium hover:bg-yellow-500 transition-all duration-300"
               >
                 Logout
               </button>
@@ -104,7 +104,7 @@
           <template v-else>
             <a 
               href="/login" 
-              class="block text-center bg-blue-700/50 text-yellow-300 border border-yellow-300/20 py-3 px-4 rounded-xl font-medium hover:bg-blue-600/50 transition-all duration-300"
+              class="block text-center bg-yellow-600 text-black border border-yellow-600/20 py-3 px-4 rounded-xl font-medium hover:bg-yellow-500 transition-all duration-300"
               @click="isMenuOpen = false"
             >
               Masuk
@@ -118,22 +118,22 @@
     <div class="hidden lg:flex items-center gap-2 xl:gap-6">
       <ul class="flex gap-2 xl:gap-6 list-none font-poppins">
         <li>
-          <a href="/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(255,255,0,0.3)] hover:bg-yellow-400 hover:text-blue-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300/50">Beranda</a>
+          <a href="/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-yellow-600 hover:text-yellow-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50">Beranda</a>
         </li>
         <li>
-          <a href="/Makarti_forum" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(255,255,0,0.3)] hover:bg-yellow-400 hover:text-blue-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300/50">Makarti Forum</a>
+          <a href="/Makarti_forum" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-yellow-600 hover:text-yellow-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50">Makarti Forum</a>
         </li>
         <li>
-          <a href="/course/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(255,255,0,0.3)] hover:bg-yellow-400 hover:text-blue-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300/50">Materi</a>
+          <a href="/course/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-yellow-600 hover:text-yellow-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50">Materi</a>
         </li>
         <li>
-          <a href="/my/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(255,255,0,0.3)] hover:bg-yellow-400 hover:text-blue-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300/50">Kursus Saya</a>
+          <a href="/my/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-yellow-600 hover:text-yellow-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50">Kursus Saya</a>
         </li>
       </ul>
       <div class="ml-4">
         <template v-if="auth.isLoggedIn">
-          <button @click="isUserDropdownOpen = !isUserDropdownOpen" class="flex items-center gap-2 px-4 py-2 rounded-lg text-yellow-300 font-semibold text-base hover:bg-blue-800/50 transition-all duration-200">
-            <i class="fas fa-user-circle text-2xl"></i>
+          <button @click="isUserDropdownOpen = !isUserDropdownOpen" class="flex items-center gap-2 px-4 py-2 rounded-lg text-black font-semibold text-base hover:bg-yellow-600 transition-all duration-200">
+            <i class="fas fa-user-circle text-2xl text-yellow-600"></i>
             <span>{{ auth.user?.name }}</span>
             <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isUserDropdownOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -165,7 +165,7 @@
         <template v-else>
           <a href="/login" class="border border-yellow-400 bg-yellow-400 text-blue-900 py-2 px-4 rounded-lg font-semibold hover:bg-yellow-300 hover:border-yellow-300 transition-all duration-200 flex items-center gap-2 shadow">
             <i class="fas fa-sign-in-alt"></i>
-            <span class="hidden md:inline">Masuk</span>
+            <span class="hidden md:inline">Masuk </span>
           </a>
         </template>
       </div>

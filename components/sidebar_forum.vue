@@ -1,15 +1,15 @@
 <template>
   <aside
-    :class="[ 'relative min-h-screen bg-gradient-to-b from-blue-900 via-blue-800 to-blue-700 text-white shadow-xl flex flex-col py-8 border-r-4 border-yellow-400 transition-all duration-300 font-poppins', isCollapsed ? 'w-20 px-2' : 'w-64 px-6' ]"
+  :class="[ 'min-h-screen bg-[#C2E7F6] text-black shadow-xl flex flex-col py-8 border-r-4 border-yellow-600 transition-all duration-300 font-poppins', isCollapsed ? 'w-20 px-2' : 'w-64 px-6' ]"
     @mouseenter="isCollapsed = false"
     @mouseleave="isCollapsed = true"
   >
     <!-- Logo & Title -->
     <div class="flex items-center gap-3 mb-8 justify-center">
-      <i class="fas fa-comments text-yellow-300 text-3xl drop-shadow-lg"></i>
+  <i class="fas fa-comments text-yellow-600 text-3xl drop-shadow-lg"></i>
       <div v-if="!isCollapsed">
-        <h2 class="text-xl font-bold tracking-wide">Makarti Forum</h2>
-        <p class="text-sm text-blue-200">Diskusi & Informasi</p>
+  <h2 class="text-xl font-bold tracking-wide text-black">Makarti Forum</h2>
+  <p class="text-sm text-black">Diskusi & Informasi</p>
       </div>
     </div>
     <!-- Menu -->

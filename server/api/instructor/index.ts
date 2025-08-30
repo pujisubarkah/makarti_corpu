@@ -17,7 +17,6 @@ export default defineEventHandler(async (event: H3Event) => {
           id: users.id,
           full_name: users.full_name,
           email: users.email,
-          role: users.role,
           created_at: users.created_at,
           is_active: users.is_active,
           course_count: sql<number>`count(CASE WHEN ${courses.is_published} = true THEN ${courses.id} END)::int`

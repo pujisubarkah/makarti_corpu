@@ -15,12 +15,12 @@
         </thead>
         <tbody>
           <tr v-for="student in students" :key="student.id">
-            <td>{{ student.name }}</td>
+            <td>{{ student.full_name }}</td>
             <td>{{ student.email }}</td>
-            <td>{{ student.courses }}</td>
+            <td>{{ student.course_count }}</td>
             <td>
-              <span :class="student.status === 'active' ? 'badge badge-success' : 'badge badge-warning'">
-                {{ student.status }}
+              <span :class="student.is_active ? 'badge badge-success' : 'badge badge-warning'">
+                {{ student.is_active ? 'aktif' : 'non-aktif' }}
               </span>
             </td>
             <td>
@@ -36,30 +36,34 @@
 
 <script setup>
 definePageMeta({
-  layout: 'admin'
+  layout: 'main'
 })
 
-const students = [
-  {
-    id: 1,
-    name: 'Ahmad Setiawan',
-    email: 'ahmad@example.com',
-    courses: 3,
-    status: 'active'
-  },
-  {
-    id: 2,
-    name: 'Dewi Lestari',
-    email: 'dewi@example.com',
-    courses: 2,
-    status: 'inactive'
-  },
-  {
-    id: 3,
-    name: 'Budi Prasetyo',
-    email: 'budi@example.com',
-    courses: 1,
-    status: 'active'
+import { ref, onMounted, computed } from 'vue'
+
+const studentsRaw = ref([])
+const isLoading = ref(true)
+const error = ref(null)
+
+const students = computed(() => studentsRaw.value)
+
+const fetchStudents = async () => {
+  isLoading.value = true
+  error.value = null
+  try {
+    const response = await fetch('/api/pembelajar')
+    if (!response.ok) throw new Error('Failed to fetch students')
+    const data = await response.json()
+    studentsRaw.value = Array.isArray(data) ? data : (data.students || [])
+  } catch (e) {
+    error.value = 'Failed to load students. Please try again.'
+    console.error('Error fetching students:', e)
+  } finally {
+    isLoading.value = false
   }
-]
+}
+
+onMounted(() => {
+  fetchStudents()
+})
 </script>

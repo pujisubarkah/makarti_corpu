@@ -67,7 +67,7 @@
 
 <script setup>
 definePageMeta({
-  layout: 'admin'
+  layout: 'main'
 })
 
 import { ref, computed, onMounted } from 'vue'

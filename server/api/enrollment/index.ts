@@ -24,16 +24,34 @@ export default defineEventHandler(async (event: H3Event) => {
           course_id: courses.id,
           course_title: courses.title,
           course_slug: courses.slug,
-          course_description: courses.description
+          course_description: courses.description,
+          thumbnail_url: courses.thumbnail_url
         })
         .from(enrollments)
         .leftJoin(courses, eq(enrollments.course_id, courses.id))
         .where(eq(enrollments.user_id, user.id))
         .orderBy(enrollments.enrolled_at)
 
+      // Ambil progress untuk semua course user
+      const { courseProgress } = await import('../../database/schema/index.js')
+      const progressArr = await db
+        .select()
+        .from(courseProgress)
+        .where(eq(courseProgress.user_id, user.id))
+
+      // Gabungkan progress ke enrollments
+      const enrollmentsWithProgress = userEnrollments.map(enroll => {
+        const found = progressArr.find(p => p.course_id === enroll.course_id)
+        return {
+          ...enroll,
+          progress_percent: found ? found.progress_percent : 0,
+          completed_at: found ? found.completed_at : null
+        }
+      })
+
       return {
         success: true,
-        enrollments: userEnrollments || []
+        enrollments: enrollmentsWithProgress || []
       }
     } catch (error) {
       console.error('Error fetching enrollments:', error)

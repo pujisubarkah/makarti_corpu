@@ -1,14 +1,13 @@
 // server/api/course/index.ts
 // Update the path below if your db file is located elsewhere
 import { db } from '../../db';
-import { courses } from '../../database/courses';
-import { users } from '../../database/users';
+import { courses, users } from '~/server/database/schema';
 import { eq } from 'drizzle-orm';
 import { H3Event, readBody } from 'h3';
 
 export default defineEventHandler(async (event: H3Event) => {
   if (event.method === 'GET') {
-    // Join courses dengan users untuk dapatkan nama instruktur
+    const query = getQuery(event);
     const allCourses = await db
       .select({
         id: courses.id,
@@ -19,10 +18,15 @@ export default defineEventHandler(async (event: H3Event) => {
         instructor_id: courses.instructor_id,
         created_at: courses.created_at,
         is_published: courses.is_published,
+        competency_id: courses.competency_id,
         instructor_name: users.full_name,
       })
       .from(courses)
       .leftJoin(users, eq(courses.instructor_id, users.id));
+
+    if (query.competensi_id) {
+      return allCourses.filter(c => c.competency_id === Number(query.competensi_id));
+    }
     return allCourses;
   }
 
@@ -30,8 +34,8 @@ export default defineEventHandler(async (event: H3Event) => {
     // Create a new course
     const body = await readBody(event);
     // Validasi sederhana, tambahkan validasi sesuai kebutuhan
-    if (!body.title || !body.slug || !body.instructor_id) {
-      return { error: 'title, slug, and instructor_id are required' };
+    if (!body.title || !body.slug || !body.instructor_id || !body.competency_id) {
+      return { error: 'title, slug, instructor_id, and competency_id are required' };
     }
     const inserted = await db.insert(courses).values({
       title: body.title,
@@ -40,6 +44,7 @@ export default defineEventHandler(async (event: H3Event) => {
       thumbnail_url: body.thumbnail_url,
       instructor_id: body.instructor_id,
       is_published: body.is_published ?? false,
+      competency_id: Number(body.competency_id),
     }).returning();
     return inserted[0];
   }

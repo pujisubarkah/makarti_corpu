@@ -5,7 +5,7 @@
       <div class="relative overflow-hidden rounded-lg">
         <div class="flex transition-transform duration-500 ease-in-out" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
           <div v-for="(image, index) in images" :key="index" class="w-full flex-shrink-0">
-            <img :src="image.src" :alt="image.alt" class="w-full h-56 md:h-72 object-cover" />
+            <img :src="image.src" :alt="image.alt" class="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg border-4 border-white" />
           </div>
         </div>
         
@@ -59,7 +59,7 @@
             "Satu Acuan, ASN Unggul"
           </p>
           <p class="text-sm text-black italic">
-            Platform Makarti Learning Center untuk transformasi kompetensi ASN Indonesia
+            Platform Makarti Learning Center untuk transformasi kompetensi ASN LAN
           </p>
         </div>
       </div>

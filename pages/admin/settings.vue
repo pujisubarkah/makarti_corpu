@@ -48,7 +48,7 @@
 
 <script setup>
 definePageMeta({
-  layout: 'admin'
+  layout: 'main'
 })
 
 const settings = reactive({

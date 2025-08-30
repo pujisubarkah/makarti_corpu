@@ -207,7 +207,7 @@
 
 <script setup>
 definePageMeta({
-  layout: 'instructor'
+  layout: 'main'
 })
 
 import { ref, onMounted } from 'vue'
@@ -373,7 +373,8 @@ async function addQuiz() {
     }
     if (newQuizType.value === 'multiple') {
       body.choices = newQuizChoices.value
-      body.correct_answer = newQuizCorrect.value
+      // Kirim correct_answer sebagai 1-based index
+      body.correct_answer = newQuizCorrect.value + 1
     } else {
       body.correct_answer = newQuizAnswer.value
     }

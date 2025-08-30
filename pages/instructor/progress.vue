@@ -43,7 +43,7 @@
 
 <script setup>
 definePageMeta({
-  layout: 'instructor'
+  layout: 'main'
 })
 
 const progressData = [

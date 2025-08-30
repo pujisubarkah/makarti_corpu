@@ -1,11 +1,11 @@
 import { db } from '../../db'
 import { courseSections } from '../../database/course_section'
 import { sectionContents } from '../../database/content_section'
-import { readBody } from 'h3'
+import { readBody, H3Event } from 'h3'
 import { eq } from 'drizzle-orm'
 
 // GET: Ambil semua section beserta kontennya
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: H3Event) => {
   if (event.method === 'GET') {
     const sections = await db
       .select()
@@ -14,9 +14,9 @@ export default defineEventHandler(async (event) => {
     // Ambil semua konten
     const contents = await db.select().from(sectionContents)
     // Gabungkan konten ke masing-masing section
-    const sectionsWithContents = sections.map((section: typeof sections[number]) => ({
+    const sectionsWithContents = sections.map((section) => ({
       ...section,
-      contents: contents.filter(content => content.section_id === section.id)
+      contents: contents.filter((content) => (content as { section_id: any }).section_id === (section as { id: any }).id)
     }))
     return { sections: sectionsWithContents }
   }

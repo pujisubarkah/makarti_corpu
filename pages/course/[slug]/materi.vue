@@ -39,6 +39,14 @@
             <span>{{ completedSections.length }} selesai</span>
             <span>{{ sections.length - completedSections.length }} tersisa</span>
           </div>
+           <div v-if="sections.length > 0 && completedSections.length === sections.length" class="mt-4 text-center">
+             <button @click="router.push('/my')" class="btn bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-6 py-2 rounded-xl shadow-lg hover:from-blue-600 hover:to-indigo-600 transition-all">
+               <svg class="w-5 h-5 mr-2 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+               </svg>
+               Kembali ke Kursus Saya
+             </button>
+           </div>
         </div>
 
         <!-- Daftar Section -->
@@ -400,10 +408,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '~/stores/auth'
 
 const route = useRoute()
+const router = useRouter()
 const auth = useAuthStore()
 const showSidebar = ref(true)
 const sections = ref([])
@@ -463,9 +472,18 @@ const handleCompletion = async (sectionId) => {
         }
       })
       completedSections.value.push(sectionId)
+      // Redirect ke /my jika semua section sudah selesai
+      if (completedSections.value.length === sections.value.length) {
+        router.push('/my')
+      }
     } catch (error) {
       console.error('Error marking section as completed:', error)
     }
+  }
+
+  // Cek jika sudah selesai semua section
+  if (completedSections.value.length === sections.value.length) {
+    router.push('/my')
   }
 }
 

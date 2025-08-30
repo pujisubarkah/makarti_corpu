@@ -2,7 +2,9 @@ import { db } from '../../db'
 import { notifikasi } from '../../database/notifikasi'
 import { eq } from 'drizzle-orm'
 
-export default defineEventHandler(async (event) => {
+import type { H3Event } from 'h3'
+
+export default defineEventHandler(async (event: H3Event) => {
   const params = event.context.params
   if (!params || !params.id) {
     throw new Error('Missing user id in request parameters')

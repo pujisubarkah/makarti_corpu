@@ -2,7 +2,9 @@ import { sectionContents } from '../../database/content_section'
 import { db } from '../../db'
 import { eq } from 'drizzle-orm'
 
-export default defineEventHandler(async (event) => {
+import type { H3Event } from 'h3'
+
+export default defineEventHandler(async (event: H3Event) => {
   // Ambil section_id dari URL param [id]
   const section_id = event.context.params?.id
 

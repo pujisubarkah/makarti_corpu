@@ -10,28 +10,28 @@
     <!-- Form Signup dengan design modern -->
     <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-8">
       <div class="w-full max-w-lg">
-        <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">Mulai Perjalananmu</h1>
-        <p class="text-gray-600 text-center mb-8">Masuki pembelajaran pengentasan kemiskinan bersama kami</p>
+  <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">Mulai untuk Memberikan Materi</h1>
+  <p class="text-gray-600 text-center mb-8">Daftar sebagai pemberi materi/instruktur dan bagikan keahlian Anda kepada ASN lain</p>
         
-        <form class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-8" @submit.prevent="submitSignup">
+  <form class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border-4 border-gradient-to-r from-blue-400 via-purple-400 to-pink-400 p-10 transition-all duration-300 hover:scale-[1.01]" @submit.prevent="submitSignup">
           <!-- Avatar Selection -->
-          <div class="mb-6 flex flex-col items-center">
-            <div class="relative">
+          <div class="mb-8 flex flex-col items-center">
+            <div class="relative group">
               <img 
                 :src="avatarUrl" 
                 alt="Avatar Preview" 
-                class="w-28 h-28 rounded-full shadow-lg border-4 border-white object-cover"
+                class="w-32 h-32 rounded-full shadow-2xl border-4 border-gradient-to-r from-blue-400 via-purple-400 to-pink-400 object-cover transition-all duration-300 group-hover:scale-105"
               />
               <button 
                 type="button"
                 @click="randomizeAvatar"
-                class="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md border hover:bg-gray-50 transition-colors duration-200"
+                class="absolute bottom-0 right-0 bg-gradient-to-r from-blue-500 to-purple-500 text-white p-3 rounded-full shadow-lg border-2 border-white hover:scale-110 transition-all duration-200"
                 aria-label="Randomize Avatar"
               >
                 🎲
               </button>
             </div>
-            <p class="text-sm text-gray-600 mt-2">Pilih avatarmu — bisa dikustom atau acak</p>
+            <p class="text-sm text-gray-700 mt-3 font-medium">Pilih avatarmu — bisa dikustom atau acak</p>
           </div>
 
           <!-- Input fields dengan animasi hover -->
@@ -97,24 +97,29 @@
             </div>
           </div>
 
-          <!-- reCAPTCHA dengan style yang lebih baik -->
-          <div class="my-8 flex justify-center">
-            <div class="bg-gray-50 rounded-xl border border-gray-200 w-[304px] h-[78px] flex items-center justify-center text-gray-500 text-sm shadow-sm">
-              [reCAPTCHA]
-            </div>
-          </div>
-
+     
           <!-- Button dengan animasi hover -->
           <button id="submitdata" type="submit" 
-            class="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
-            Mulai Perjalanan Belajar
+            class="w-full py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 hover:bg-gradient-to-l hover:scale-105">
+            🚀 Mulai Memberikan Materi
           </button>
+        <div v-if="error" class="w-full text-center py-3 mb-4 rounded-xl bg-red-100 text-red-700 font-semibold border border-red-300 animate-pulse">
+          {{ error }}
+        </div>
         </form>
 
         <!-- Link login -->
         <p class="text-center mt-6 text-gray-600">
           Sudah punya akun? 
-          <a href="/login" class="text-blue-600 hover:text-blue-700 font-medium">Masuk di sini</a>
+          <a href="/login" class="text-blue-600 hover:text-blue-700 font-medium">Masuk sebagai Pembelajar</a>
+        </p>
+        <p class="text-center mt-2 text-gray-600">
+          Atau
+        </p>
+        <p class="text-center mt-2 text-gray-600">
+          <NuxtLink to="/signup" class="text-blue-700 hover:text-yellow-400 text-sm font-medium underline transition-colors duration-200">
+            Daftar sebagai Pemberi Materi / Instruktur
+          </NuxtLink>
         </p>
       </div>
     </div>
@@ -216,5 +221,9 @@ randomizeAvatar()
 <style scoped>
 .font-poppins {
   font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+.border-gradient-to-r {
+  border-image: linear-gradient(to right, #3b82f6, #a78bfa, #ec4899) 1;
 }
 </style>

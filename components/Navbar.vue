@@ -10,37 +10,35 @@
         <h1 class="text-black font-bold text-xl md:text-2xl tracking-wide drop-shadow-lg" style="text-shadow:0 0 8px #C2E7F6, 0 2px 4px rgba(0,0,0,0.3);">
           Makarti Learning Center
         </h1>
-  <p class="text-yellow-600 text-sm font-medium opacity-90">Learning Management System</p>
       </div>
-    </div>
-
-    <!-- Hamburger Menu Button (Mobile) -->
-    <button 
-      @click="isMenuOpen = !isMenuOpen"
-  class="lg:hidden text-black p-2 hover:bg-yellow-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50"
-    >
-      <svg 
-        class="w-6 h-6" 
-        fill="none" 
-        stroke="currentColor" 
-        viewBox="0 0 24 24"
+      <button 
+        @click="isMenuOpen = !isMenuOpen"
+        class="md:hidden ml-2 p-2 rounded-lg bg-yellow-600 text-black hover:bg-yellow-500 transition-all duration-200 focus:outline-none"
+        aria-label="Toggle menu"
       >
-        <path 
-          v-if="!isMenuOpen"
-          stroke-linecap="round" 
-          stroke-linejoin="round" 
-          stroke-width="2" 
-          d="M4 6h16M4 12h16M4 18h16"
-        />
-        <path 
-          v-else
-          stroke-linecap="round" 
-          stroke-linejoin="round" 
-          stroke-width="2" 
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </button>
+        <svg 
+          class="w-6 h-6" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+            <path 
+              v-if="!isMenuOpen"
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+            <path 
+              v-else
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M6 18L18 6M6 6l12 12"
+            />
+        </svg>
+      </button>
+    </div>
 
     <!-- Mobile Menu -->
     <div 
@@ -67,15 +65,25 @@
               Materi
             </a>
           </li>
+           <li v-if="auth.isLoggedIn && auth.user?.role_id === 3">
+             <a 
+               href="/my" 
+               class="block px-4 py-3 rounded-xl font-medium text-base text-blue-700 bg-blue-100 hover:bg-blue-200 hover:text-blue-900 transition-all duration-300"
+               @click="isMenuOpen = false"
+             >
+               Kursus Saya
+             </a>
+           </li>
           <li>
             <a 
-              href="/my/" 
+              href="/assessment" 
               class="block px-4 py-3 rounded-xl font-medium text-base text-black hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300"
               @click="isMenuOpen = false"
             >
-              Kursus Saya
+              Assessment
             </a>
           </li>
+
           <li>
             <a href="/Makarti_forum" 
               class="block px-4 py-3 rounded-xl font-medium text-base text-black hover:bg-yellow-300 hover:text-yellow-900 transition-all duration-300"
@@ -83,6 +91,7 @@
               Makarti Forum
             </a>
           </li>
+
         </ul>
 
         <!-- Mobile Login/User Button -->
@@ -127,48 +136,57 @@
           <a href="/course/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-yellow-600 hover:text-yellow-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50">Materi</a>
         </li>
         <li>
-          <a href="/my/" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-yellow-600 hover:text-yellow-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-600/50">Kursus Saya</a>
+          <a href="/assessment" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-black hover:bg-blue-600 hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-600/50">Assessment</a>
+        </li>
+        <li v-if="auth.isLoggedIn && auth.user?.role_id === 3">
+          <a href="/my" class="px-4 py-2 rounded-lg font-bold text-lg transition-all duration-200 text-blue-700 bg-blue-100 hover:bg-blue-200 hover:text-blue-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-600/50">Kursus Saya</a>
         </li>
       </ul>
-      <div class="ml-4">
-        <template v-if="auth.isLoggedIn">
-          <button @click="isUserDropdownOpen = !isUserDropdownOpen" class="flex items-center gap-2 px-4 py-2 rounded-lg text-black font-semibold text-base hover:bg-yellow-600 transition-all duration-200">
-            <i class="fas fa-user-circle text-2xl text-yellow-600"></i>
+
+      <!-- Desktop Login/User Button -->
+    <div class="hidden lg:flex items-center gap-2 sm:gap-4">
+      <template v-if="auth.isLoggedIn">
+        <div class="relative user-dropdown">
+          <button 
+            @click="isUserDropdownOpen = !isUserDropdownOpen"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-black font-semibold text-base hover:bg-blue-800/50 transition-all duration-200"
+          >
+            <i class="fas fa-user-circle text-2xl"></i>
             <span>{{ auth.user?.name }}</span>
-            <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isUserDropdownOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg 
+              class="w-4 h-4 transition-transform duration-200"
+              :class="{ 'rotate-180': isUserDropdownOpen }"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
+
           <!-- User Dropdown Menu -->
-          <div v-show="isUserDropdownOpen" class="absolute right-0 mt-2 w-48 py-2 bg-white rounded-xl shadow-xl border border-gray-100 z-50">
-            <a href="/profile" @click="isUserDropdownOpen = false" class="group flex items-center w-full px-4 py-3 text-gray-700 hover:bg-blue-50/80 transition-all duration-200">
-              <span class="flex items-center gap-3">
-                <i class="fas fa-user w-5 text-blue-600 group-hover:scale-110 transition-transform"></i>
-                <span class="font-medium">Profile</span>
-              </span>
-            </a>
-            <a href="/settings" @click="isUserDropdownOpen = false" class="group flex items-center w-full px-4 py-3 text-gray-700 hover:bg-blue-50/80 transition-all duration-200">
-              <span class="flex items-center gap-3">
-                <i class="fas fa-cog w-5 text-blue-600 group-hover:scale-110 transition-transform"></i>
-                <span class="font-medium">Settings</span>
-              </span>
-            </a>
-            <div class="border-t border-gray-100 my-1"></div>
-            <button @click="auth.logout(); $router.push('/'); isUserDropdownOpen = false" class="group flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50/80 transition-all duration-200">
-              <span class="flex items-center gap-3">
-                <i class="fas fa-sign-out-alt w-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-medium">Logout</span>
-              </span>
+          <div 
+            v-show="isUserDropdownOpen"
+            class="absolute right-0 mt-2 w-48 py-2 bg-white rounded-xl shadow-xl border border-gray-100 z-50"
+          >
+            <button 
+              @click="auth.logout(); $router.push('/'); isUserDropdownOpen = false"
+              class="w-full text-black font-medium px-4 py-3 rounded-xl hover:bg-yellow-100 transition-all duration-200"
+            >
+              Logout
             </button>
           </div>
-        </template>
-        <template v-else>
-          <a href="/login" class="border border-yellow-400 bg-yellow-400 text-blue-900 py-2 px-4 rounded-lg font-semibold hover:bg-yellow-300 hover:border-yellow-300 transition-all duration-200 flex items-center gap-2 shadow">
-            <i class="fas fa-sign-in-alt"></i>
-            <span class="hidden md:inline">Masuk </span>
-          </a>
-        </template>
-      </div>
+        </div>
+      </template>
+      <template v-else>
+        <a 
+          href="/login" 
+          class="px-6 py-2 rounded-xl font-bold text-lg bg-yellow-600 text-black border border-yellow-600/20 hover:bg-yellow-500 transition-all duration-300"
+        >
+          Masuk
+        </a>
+      </template>
+    </div>
     </div>
   </nav>
 </template>

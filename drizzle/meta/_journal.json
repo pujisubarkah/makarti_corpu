@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1756431339825,
+      "tag": "0000_spicy_miss_america",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1756431531524,
+      "tag": "0001_melodic_klaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756432598716,
+      "tag": "0002_common_dorian_gray",
+      "breakpoints": true
+    }
+  ]
+}

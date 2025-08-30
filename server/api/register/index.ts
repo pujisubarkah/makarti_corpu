@@ -1,5 +1,5 @@
 import { db } from '../../db'
-import { users } from '../../database/users'
+import { users } from '../../database/schema'
 import { H3Event } from 'h3'
 import bcrypt from 'bcryptjs'
 import { eq } from 'drizzle-orm'
@@ -52,23 +52,25 @@ export default defineEventHandler(async (event: H3Event) => {
     const hashedPassword = await bcrypt.hash(body.password, salt)
 
     // Create new user
-    const newUser = await db.insert(users).values({
-      email: body.email,
-      password_hash: hashedPassword,
-      full_name: body.full_name,
-      nip: body.nip || null,
-      role: 'user',
-      role_id: 3, // Default role_id for regular users
-      is_active: true
-    })
-    .returning({
-      id: users.id,
-      email: users.email,
-      full_name: users.full_name,
-      nip: users.nip,
-      role: users.role,
-      created_at: users.created_at
-    })
+      const newUser = await db.insert(users).values({
+        email: body.email,
+        password_hash: hashedPassword,
+        full_name: body.full_name,
+        nip: body.nip || null,
+        role_id: 2, // Default role_id for instruktur
+        is_active: true,
+        avatar_seed: body.email // Use email as avatar_seed, or generate as needed
+      })
+      .returning({
+        id: users.id,
+        email: users.email,
+        full_name: users.full_name,
+        nip: users.nip,
+        role_id: users.role_id,
+        is_active: users.is_active,
+        avatar_seed: users.avatar_seed,
+        created_at: users.created_at
+      })
 
     return {
       message: 'Registration successful',

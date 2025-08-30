@@ -316,18 +316,24 @@ const handleJoin = async () => {
       throw new Error('Course ID not found')
     }
 
+    // Pastikan token ada
+    const token = auth.user?.token
+    if (!token) {
+      alert('Token login tidak ditemukan. Silakan login ulang.');
+      return;
+    }
+    console.log('Token yang dikirim:', token)
+
     // Create enrollment
     const response = await fetch('/api/enrollment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Add authorization header
-        'Authorization': `Bearer ${auth.user?.token}`
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         course_id: course.value.id
       }),
-      // Ensure credentials are included
       credentials: 'include'
     })
 
@@ -337,11 +343,7 @@ const handleJoin = async () => {
     }
 
     const data = await response.json()
-    
-    // Show success message
     alert('Successfully enrolled in the course!')
-    
-    // Redirect to course material
     router.push(`/course/${route.params.slug}/materi`)
   } catch (error) {
     console.error('Enrollment error:', error)

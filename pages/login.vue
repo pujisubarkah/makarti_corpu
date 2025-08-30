@@ -24,7 +24,7 @@
                 </svg>
               </div>
               <h1 class="text-3xl lg:text-4xl font-bold text-blue-900 drop-shadow-lg mt-20" style="text-shadow: 0 2px 8px #FFD966, 0 0px 0px #FFD966, 1px 1px 0 #FFD966, -1px -1px 0 #FFD966;">
-                Makarti Corpu
+                Makarti Learning Center
               </h1>
             </div>
             
@@ -58,10 +58,9 @@
         <!-- Right Side - Login Forms -->
         <div class="flex flex-col items-center justify-center">
           
-          <!-- Welcome Form - Institution Selection -->
+          <!-- Welcome Form - Single Login Button -->
           <div v-if="!showOtherForm" class="w-full max-w-md">
             <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border-l-4 border-yellow-400 p-8 space-y-6">
-              <!-- Header -->
               <div class="text-center space-y-3">
                 <div class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto shadow-lg border-2 border-yellow-400">
                   <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,26 +68,19 @@
                   </svg>
                 </div>
                 <h2 class="text-2xl font-bold text-blue-900">Selamat Datang!</h2>
-                <p class="text-blue-700">Masuk ke platform pembelajaran Makarti Corpu</p>
+                <p class="text-blue-700">Masuk ke Makarti Learning Center</p>
               </div>
-
-              <!-- Login Button -->
-              <div class="space-y-4">
-                <button @click="showOtherForm = true" class="group w-full bg-gradient-to-r from-blue-700 to-blue-900 hover:from-blue-800 hover:to-blue-900 text-yellow-300 font-semibold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+              <div class="space-y-4 mt-6">
+                <button @click="showOtherForm = true" class="group w-full bg-blue-700 hover:bg-blue-800 text-yellow-300 font-semibold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
                   <div class="bg-white/20 p-2 rounded-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
                   </div>
-                  <span>Masuk ke Platform</span>
-                  <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                  </svg>
+                  <span>Masuk Makarti Learning Center</span>
                 </button>
               </div>
-
-              <!-- Security Notice -->
-              <div class="bg-yellow-50 border-l-4 border-yellow-400 rounded-xl p-4 text-center">
+              <div class="bg-yellow-50 border-l-4 border-yellow-400 rounded-xl p-4 text-center mt-6">
                 <div class="flex items-center justify-center gap-2 mb-2">
                   <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"/>
@@ -183,22 +175,37 @@
                 </button>
 
                 <!-- Forgot Password -->
-                <div class="text-center">
+                <div class="text-center mb-2">
                   <NuxtLink to="/send-email" class="text-yellow-400 hover:text-blue-700 text-sm font-medium hover:underline transition-colors duration-200">
                     Lupa kata sandi?
+                  </NuxtLink>
+                </div>
+                <div class="text-center mt-2">
+                  <NuxtLink to="/signup" class="text-blue-700 hover:text-yellow-400 text-sm font-medium underline transition-colors duration-200">
+                    Daftar sebagai Pemberi Materi / Instruktur
                   </NuxtLink>
                 </div>
               </form>
             </div>
           </div>
 
+
           <!-- User Info (After Login) -->
           <div v-if="auth.user" class="mt-6 bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border-l-4 border-yellow-400 p-4">
             <div class="flex items-center justify-between gap-4">
               <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 w-10 h-10 rounded-full flex items-center justify-center text-yellow-400 font-bold border-2 border-yellow-400">
-                  {{ auth.user?.name?.charAt(0).toUpperCase() }}
-                </div>
+                <template v-if="auth.user?.role_id !== 2"> <!-- Pembelajar -->
+                  <img
+                      :src="`https://api.dicebear.com/7.x/identicon/svg?seed=${auth.user?.email ?? 'default'}`"
+                      alt="avatar"
+                      class="w-10 h-10 rounded-full border-2 border-yellow-500 bg-white"
+                  />
+                </template>
+                <template v-else> <!-- Pemberi Materi -->
+                  <div class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 w-10 h-10 rounded-full flex items-center justify-center text-yellow-400 font-bold border-2 border-yellow-400">
+                    {{ auth.user?.name?.charAt(0).toUpperCase() }}
+                  </div>
+                </template>
                 <div>
                   <p class="font-semibold text-blue-900">{{ auth.user?.name }}</p>
                   <p class="text-sm text-blue-700">Berhasil masuk</p>
@@ -222,6 +229,45 @@
 </template>
 
 <script setup lang="ts">
+const showRegisterInstruktur = ref(false)
+const regNama = ref('')
+const regEmail = ref('')
+const regInstansi = ref('')
+const regMotivasi = ref('')
+const regLoading = ref(false)
+const regError = ref('')
+const regSuccess = ref('')
+
+async function handleRegisterInstruktur() {
+  regLoading.value = true
+  regError.value = ''
+  regSuccess.value = ''
+  try {
+    // Simpan data pendaftaran ke backend, misal /api/register-instruktur
+    const res: { success?: boolean; error?: string } = await ($fetch as any)('/api/register-instruktur', {
+      method: 'POST',
+      body: {
+        name: regNama.value,
+        email: regEmail.value,
+        instansi: regInstansi.value,
+        motivasi: regMotivasi.value
+      }
+    })
+    if (res && res.success) {
+      regSuccess.value = 'Pendaftaran berhasil! Tim kami akan menghubungi Anda.'
+      regNama.value = ''
+      regEmail.value = ''
+      regInstansi.value = ''
+      regMotivasi.value = ''
+    } else {
+      regError.value = res.error || 'Pendaftaran gagal.'
+    }
+  } catch (err) {
+    regError.value = 'Terjadi kesalahan. Silakan coba lagi.'
+  } finally {
+    regLoading.value = false
+  }
+}
 import { ref } from 'vue'
 import { useAuthStore } from '~/stores/auth'
 import { useRouter } from 'vue-router'
@@ -234,6 +280,7 @@ if (auth.isLoggedIn) {
   router.push('/my')
 }
 
+
 const showOtherForm = ref(false)
 const email = ref('')
 const password = ref('')
@@ -245,8 +292,16 @@ async function handleSubmit() {
   errorMsg.value = ''
   try {
     type LoginResponse =
-      | { success: boolean; user: { id: string; email: string; full_name: string; role_id: number }; error?: undefined }
-      | { error: string; success?: undefined; user?: undefined };
+      | { success: boolean; user: { id: string; email: string; full_name: string; role_id: number }; token?: string; error?: undefined }
+      | { error: string; success?: undefined; user?: undefined; token?: undefined };
+
+    type AuthUser = {
+      id: string;
+      name: string;
+      role_id: number;
+      email: string;
+      token?: string;
+    };
 
     const res: LoginResponse = await ($fetch as any)('/api/login', {
       method: 'POST',
@@ -260,8 +315,10 @@ async function handleSubmit() {
       auth.login({ 
         id: String(res.user.id), 
         name: res.user.full_name, 
-        role_id: Number(res.user.role_id)
-      })
+        role_id: Number(res.user.role_id),
+        email: res.user.email,
+        token: res.token // simpan token jika ada
+      } as AuthUser)
       // Redirect sesuai role_id
       if (res.user.role_id === 1) {
         router.push('/admin')

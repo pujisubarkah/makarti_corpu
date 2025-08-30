@@ -1,3 +1,5 @@
+
+
 <template>
   <div>
     <div class="flex flex-col min-h-screen">
@@ -9,6 +11,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { useHead } from '#imports'

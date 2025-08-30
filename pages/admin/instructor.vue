@@ -126,7 +126,7 @@
 import { ref, onMounted } from 'vue'
 
 definePageMeta({
-  layout: 'admin'
+  layout: 'main'
 })
 
 interface Instructor {
@@ -147,12 +147,12 @@ const selectedInstructor = ref<Instructor | null>(null)
 const fetchInstructors = async () => {
   isLoading.value = true
   error.value = null
-  
   try {
     const response = await fetch('/api/instructor')
     if (!response.ok) throw new Error('Failed to fetch instructors')
-    
-    instructors.value = await response.json()
+    const data = await response.json()
+    // Jika response berupa { instructors: [...] }
+    instructors.value = Array.isArray(data) ? data : (data.instructors || [])
   } catch (e) {
     error.value = 'Failed to load instructors. Please try again.'
     console.error('Error fetching instructors:', e)

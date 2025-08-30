@@ -1,5 +1,8 @@
 import { pgTable, uuid, text, integer, timestamp } from 'drizzle-orm/pg-core';
+// Update the import path if the file is located elsewhere, for example:
 import { courseSections } from './course_section';
+// Or, if the file is named differently, update accordingly:
+// import { courseSections } from './courseSections';
 
 export const sectionContents = pgTable('section_contents', {
   id: uuid('id').primaryKey().defaultRandom(),

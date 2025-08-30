@@ -3,8 +3,13 @@ import { db } from '../../db'
 import { quizResponses } from '../../database/quiz_response' // Sesuaikan dengan nama file yang benar
 import { readBody, getQuery } from 'h3'
 
-export default defineEventHandler(async (event) => {
-  if (event.method === 'GET') {
+import type { H3Event } from 'h3'
+
+import { getMethod } from 'h3'
+
+export default defineEventHandler(async (event: H3Event) => {
+  const method = getMethod(event)
+  if (method === 'GET') {
     const { user_id, quiz_id } = getQuery(event)
     const filters = []
     if (user_id) filters.push(eq(quizResponses.user_id, String(user_id)))
@@ -18,7 +23,7 @@ export default defineEventHandler(async (event) => {
     return { responses: data }
   }
 
-  if (event.method === 'POST') {
+  if (method === 'POST') {
     const body = await readBody(event)
     const { user_id, quiz_id, answer, is_correct, points_earned } = body
 

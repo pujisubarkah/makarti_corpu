@@ -3,8 +3,11 @@ import { db } from '../../db'
 import { users } from '../../database/users'
 import { readBody } from 'h3'
 import bcrypt from 'bcryptjs'
+import jsonwebtoken from 'jsonwebtoken'
 
-export default defineEventHandler(async (event) => {
+import type { H3Event } from 'h3'
+
+export default defineEventHandler(async (event: H3Event) => {
   try {
     if (event.method !== 'POST') {
       return { error: 'Method not allowed' }
@@ -19,7 +22,6 @@ export default defineEventHandler(async (event) => {
         id: users.id,
         email: users.email,
         full_name: users.full_name,
-        role: users.role,
         role_id: users.role_id, // tambahkan role_id
         passwordHash: users.password_hash
       })
@@ -37,7 +39,15 @@ export default defineEventHandler(async (event) => {
     // Buang password sebelum kirim ke client
     const { passwordHash, ...userData } = user
 
-    return { success: true, user: userData }
+    // Generate JWT token
+    const jwtSecret = process.env.JWT_SECRET || 'default_secret_key'
+    const token = jsonwebtoken.sign(
+      { id: userData.id, email: userData.email, role_id: userData.role_id },
+      jwtSecret,
+      { expiresIn: '7d' }
+    )
+
+    return { success: true, user: userData, token }
   } catch (err) {
     console.error('Login error:', err)
     return { error: err instanceof Error ? err.message : 'Terjadi kesalahan server' }

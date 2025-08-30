@@ -1,10 +1,13 @@
 import { eq, and } from 'drizzle-orm'
 import { db } from '../../db'
 import { courseProgress } from '../../database/course_progress'
-import { readBody, getQuery } from 'h3'
+import { readBody, getQuery, H3Event } from 'h3'
 
-export default defineEventHandler(async (event) => {
-  if (event.method === 'GET') {
+import { getMethod } from 'h3'
+
+export default defineEventHandler(async (event: H3Event) => {
+  const method = getMethod(event)
+  if (method === 'GET') {
     const { user_id, course_id, section_id } = getQuery(event)
     const filters = []
     if (user_id) filters.push(eq(courseProgress.user_id, String(user_id)))
@@ -21,7 +24,7 @@ export default defineEventHandler(async (event) => {
     return data
   }
 
-  if (event.method === 'POST') {
+  if (method === 'POST') {
     const body = await readBody(event)
     const { user_id, course_id, section_id, progress_percent } = body
 

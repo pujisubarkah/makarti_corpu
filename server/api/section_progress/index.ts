@@ -4,14 +4,19 @@ import { readBody } from 'h3'
 import { eq, and } from 'drizzle-orm'
 
 // GET: Ambil semua progress section
-export default defineEventHandler(async (event) => {
-  if (event.method === 'GET') {
+import type { H3Event } from 'h3'
+
+import { getMethod } from 'h3'
+
+export default defineEventHandler(async (event: H3Event) => {
+  const method = getMethod(event)
+  if (method === 'GET') {
     const data = await db.select().from(sectionProgress)
     return { progress: data }
   }
 
   // POST: Tambah atau update progress section
-  if (event.method === 'POST') {
+  if (method === 'POST') {
     const body = await readBody(event)
     const { user_id, section_id, progress_percent, is_completed } = body
 

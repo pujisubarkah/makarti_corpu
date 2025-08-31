@@ -6,8 +6,9 @@ import { eq } from 'drizzle-orm';
 import { H3Event, readBody } from 'h3';
 
 export default defineEventHandler(async (event: H3Event) => {
+  const query = getQuery(event);
+
   if (event.method === 'GET') {
-    const query = getQuery(event);
     const allCourses = await db
       .select({
         id: courses.id,
@@ -47,6 +48,24 @@ export default defineEventHandler(async (event: H3Event) => {
       competency_id: Number(body.competency_id),
     }).returning();
     return inserted[0];
+  }
+
+  if (event.method === 'DELETE') {
+  // Delete course by id (from query or body)
+  const id = query.id || (await readBody(event)).id;
+  if (!id) return { error: 'Course id required' };
+  await db.delete(courses).where(eq(courses.id, String(id)));
+  return { success: true };
+  }
+
+  if (event.method === 'PUT') {
+  // Update course by id
+  const body = await readBody(event);
+  if (!body.id) return { error: 'Course id required' };
+  const updateData = { ...body };
+  delete updateData.id;
+  await db.update(courses).set(updateData).where(eq(courses.id, String(body.id)));
+  return { success: true };
   }
 
   // Method not allowed

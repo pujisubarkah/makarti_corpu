@@ -181,7 +181,7 @@ export const assessment_answers = pgTable("assessment_answers", {
 export const quizResponses = pgTable('quiz_responses', {
   id: uuid('id').primaryKey().defaultRandom(),
   user_id: uuid('user_id').notNull().references(() => users.id),
-  quiz_id: uuid('quiz_id').notNull().references(() => sectionQuizzes.id),
+    quiz_id: uuid('quiz_id').notNull().references(() => sectionQuizzes.id, { onDelete: 'cascade' }),
   answer: text('answer').notNull(), // Jawaban user
   is_correct: boolean('is_correct'), // Apakah jawaban benar (null untuk likert)
   points_earned: integer('points_earned').default(0),

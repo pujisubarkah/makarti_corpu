@@ -1,5 +1,7 @@
 import { db } from '../../../db'
 import { courseSections } from '../../../database/course_section'
+import { sectionContents } from '../../../database/content_section'
+import { sectionQuizzes } from '../../../database/schema'
 import { H3Event, readBody } from 'h3'
 import { eq } from 'drizzle-orm'
 
@@ -48,14 +50,23 @@ export default defineEventHandler(async (event: H3Event) => {
     return updated[0]
   }
 
-  // DELETE untuk hapus section
+  // DELETE untuk hapus section (cascade delete quizzes & contents)
   if (event.method === 'DELETE') {
     const body = await readBody(event)
     if (!body.id) {
       return { error: 'id section wajib diisi' }
     }
-    await db.delete(courseSections).where(eq(courseSections.id, body.id))
-    return { success: true }
+    try {
+      // Hapus semua konten yang terkait dengan section
+      await db.delete(sectionContents).where(eq(sectionContents.section_id, body.id))
+      // Hapus semua quiz yang terkait dengan section
+      await db.delete(sectionQuizzes).where(eq(sectionQuizzes.section_id, body.id))
+      // Hapus section
+      const result = await db.delete(courseSections).where(eq(courseSections.id, body.id))
+      return { success: true, result }
+    } catch (err: any) {
+      return { error: 'Gagal menghapus section', detail: err?.message || err }
+    }
   }
 
   event.res.statusCode = 405

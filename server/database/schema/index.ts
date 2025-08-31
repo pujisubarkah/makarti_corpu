@@ -1,5 +1,49 @@
+import { pgTable, uuid, text, integer, timestamp, boolean, varchar, jsonb, serial, pgEnum } from 'drizzle-orm/pg-core';
 
-import { pgTable, uuid, text, integer, timestamp, boolean, varchar, jsonb, serial } from 'drizzle-orm/pg-core';
+// Define roleEnum
+export const roleEnum = pgEnum('role', ['responder', 'admin', 'other']); // Add all roles you need
+
+// Tabel responders
+export const responders = pgTable("responders", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 150 }).notNull().unique(),
+  avatar: varchar("avatar", { length: 255 }).notNull(),
+  password: varchar("password", { length: 255 }).notNull(),
+  role: roleEnum("role").default("responder").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Tabel topics
+export const topics = pgTable("topics", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  user_id: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  replies_count: integer("replies_count").default(0),
+  last_reply_at: timestamp("last_reply_at"),
+  created_at: timestamp("created_at").defaultNow(),
+});
+
+// Tabel posts
+export const posts = pgTable("posts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  topic_id: uuid("topic_id").notNull().references(() => topics.id, { onDelete: "cascade" }),
+  user_id: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
+  created_at: timestamp("created_at").defaultNow(),
+});
+import { certificates } from './certificates'
+// COURSE SECTIONS
+export const courseSections = pgTable('course_sections', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  course_id: uuid('course_id').notNull().references(() => courses.id),
+  title: text('title').notNull(),
+  order: integer('order'),
+  created_at: timestamp('created_at').defaultNow(),
+});
+
+// Removed duplicate import of pgTable and others
 
 // USERS
 export const users = pgTable('users', {
@@ -66,16 +110,10 @@ export const sectionProgress = pgTable('section_progress', {
   progress_percent: integer('progress_percent').default(0), // 0-100
   is_completed: boolean('is_completed').default(false),
   completed_at: timestamp('completed_at'), // null
-})
-
-
-export const courseSections = pgTable('course_sections', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  course_id: uuid('course_id').notNull().references(() => courses.id),
-  title: text('title').notNull(),
-  order: integer('order'),
-  created_at: timestamp('created_at').defaultNow(),
 });
+
+
+
 
 export const sectionQuizzes = pgTable('section_quizzes', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -151,6 +189,7 @@ export const quizResponses = pgTable('quiz_responses', {
 });
 
 
+
 export const courseProgress = pgTable('course_progress', {
   id: uuid('id').primaryKey().defaultRandom(),
   user_id: uuid('user_id').notNull().references(() => users.id),
@@ -158,6 +197,8 @@ export const courseProgress = pgTable('course_progress', {
   section_id: uuid('section_id').references(() => courseSections.id), // opsional, track per section
   progress_percent: integer('progress_percent').default(0), // 0-100
   completed_at: timestamp('completed_at'), // null artinya belum selesai
-});
+})
+
+export { certificates }
 
 

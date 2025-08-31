@@ -144,7 +144,7 @@
                        class="group bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                     <!-- Gambar Kursus -->
                     <div class="relative overflow-hidden h-48">
-                      <img :src="enroll.thumbnail_url" 
+                      <img :src="enroll.course_thumbnail" 
                            :alt="enroll.course_title"
                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -344,6 +344,7 @@ interface Enrollment {
   course_title: string
   course_slug: string
   course_description: string
+  progress_percent: number
 }
 
 const enrollments = ref<Enrollment[]>([])

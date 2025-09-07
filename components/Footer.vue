@@ -1,5 +1,5 @@
 <script setup>
-import { Instagram, Youtube, Linkedin } from 'lucide-vue-next';
+import { Instagram, Youtube, Linkedin, X } from 'lucide-vue-next';
 </script>
 
 
@@ -36,8 +36,8 @@ import { Instagram, Youtube, Linkedin } from 'lucide-vue-next';
             <a href="https://www.facebook.com/bppk.kemenkeu/" target="_blank" class="flex items-center gap-3 text-black hover:text-yellow-600 transition-colors">
               <span class="icon"><Instagram :size="24" /></span> <span class="ml-2">LAN RI</span>
             </a>
-            <a href="https://twitter.com/bppkkemenkeu" target="_blank" class="flex items-center gap-3 text-black hover:text-yellow-600 transition-colors">
-              <span class="icon"><Linkedin :size="24" /></span> <span class="ml-2">@LAN_RI</span>
+            <a href="https://x.com/bppkkemenkeu" target="_blank" class="flex items-center gap-3 text-black hover:text-yellow-600 transition-colors">
+              <span class="icon"><X :size="24" /></span> <span class="ml-2">@LAN_RI</span>
             </a>
             <a href="https://www.youtube.com/channel/UCDBqV8WfMOK2pwHQZvONb7g" target="_blank" class="flex items-center gap-3 text-black hover:text-yellow-600 transition-colors">
               <span class="icon"><Youtube :size="24" /></span> <span class="ml-2">LAN RI</span>

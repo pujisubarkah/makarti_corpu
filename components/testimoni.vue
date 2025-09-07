@@ -28,8 +28,8 @@
           <div class="flex items-center gap-3">
             <img src="https://randomuser.me/api/portraits/women/55.jpg" alt="user" class="w-12 h-12 rounded-full border-2 border-yellow-400" />
             <div>
-              <div class="font-bold text-black">Siti Nurhaliza</div>
-              <div class="text-sm text-black">ASN Kementerian Pendidikan</div>
+              <div class="font-bold text-black">Rina Wulandari</div>
+              <div class="text-sm text-black">Analis Kebijakan Direktorat Strategi</div>
             </div>
           </div>
           <p class="text-black italic">“Makarti Learning Center memberikan pengalaman belajar yang interaktif dan relevan dengan kebutuhan ASN saat ini. Fasilitatornya sangat mendukung dan materi mudah dipahami. Saya merasa lebih percaya diri dalam menjalankan tugas.”</p>

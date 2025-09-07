@@ -1,4 +1,21 @@
 <script setup lang="ts">
+// Konversi kecil untuk Unsplash thumbnail
+const fixUnsplashUrl = (url: string) => {
+  if (!url) return ''
+  // Cek pola /photos/ID atau /foto/ID
+  const match = url.match(/(?:unsplash\.com\/(?:photos|foto)\/)([\w-]+)/)
+  if (match && match[1]) {
+    const id = match[1]
+    return `https://images.unsplash.com/photo-${id}?w=800&auto=format&fit=crop`
+  }
+  // Cek pola akhiran -ID
+  const dashMatch = url.match(/-([A-Za-z0-9]+)$/)
+  if (dashMatch && dashMatch[1]) {
+    const id = dashMatch[1]
+    return `https://images.unsplash.com/photo-${id}?w=800&auto=format&fit=crop`
+  }
+  return url
+}
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -58,12 +75,12 @@ const goToCourse = (course: Course) => {
             <div class="relative flex items-center">
               <input
                 type="text"
-                placeholder="Cari Kompetensi Genteri dan Kompetensi Inti..."
+                placeholder="Cari Kompetensi Generik dan Kompetensi Inti..."
                 class="input input-bordered w-full py-4 pl-5 pr-14 text-lg rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 v-model="search"
               />
               <button
-                class="absolute right-2 top-1/2 -translate-y-1/2 bg-[#FFD966] text-[#3399FF] rounded-full p-3 shadow-md hover:bg-[#FFD54F] transition"
+                class="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-200 text-gray-600 rounded-full p-3 shadow-md hover:bg-gray-300 transition"
                 @click="search = ''"
                 title="Reset Pencarian"
               >
@@ -83,13 +100,13 @@ const goToCourse = (course: Course) => {
       <div v-else-if="error" class="text-center py-12 text-red-600">{{ error }}</div>
       <div v-else class="mt-8">
         <div class="w-full">
-          <div class="flex gap-6 overflow-x-auto pb-4">
-            <div v-for="course in filteredCourses" :key="course.id" class="min-w-[355px]">
-              <div class="top_courses ccnWithFoot hbmsu-masonry-grid-custom bg-white rounded-xl shadow-lg p-4 transition-transform duration-200 hover:-translate-y-2 hover:shadow-2xl">
-                <div class="thumb relative mb-2">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-4">
+            <div v-for="course in filteredCourses" :key="course.id" class="flex">
+              <div class="top_courses ccnWithFoot hbmsu-masonry-grid-custom bg-white rounded-xl shadow-lg p-4 flex-1 flex flex-col justify-between transition-transform duration-200 hover:-translate-y-2 hover:shadow-2xl">
+                <div class="thumb relative mb-2 flex justify-center">
                   <img
-                    class="img-whp rounded-lg w-full h-48 object-cover"
-                    :src="course.thumbnail_url || 'https://placehold.co/400x200?text=No+Image'"
+                    class="img-whp rounded-lg w-full h-48 object-cover mx-auto"
+                    :src="fixUnsplashUrl(course.thumbnail_url ?? '') || 'https://placehold.co/400x200?text=No+Image'"
                     :alt="course.title"
                   >
                   <button
@@ -99,7 +116,7 @@ const goToCourse = (course: Course) => {
                     <div class="tag bg-[#FFD966] text-[#3399FF] px-3 py-2 rounded font-semibold shadow">Lihat Materi</div>
                   </button>
                 </div>
-                <div class="details mt-2">
+                <div class="details mt-2 text-center">
                   <div class="tc_content">
                     <h5 class="font-bold text-lg text-gray-800 mb-1">{{ course.title }}</h5>
                     <p class="text-sm text-gray-600 mb-2">{{ course.description }}</p>
@@ -116,7 +133,7 @@ const goToCourse = (course: Course) => {
                 </div>
               </div>
             </div>
-            <div v-if="filteredCourses.length === 0" class="text-center text-gray-500 w-full py-12">
+            <div v-if="filteredCourses.length === 0" class="text-center text-gray-500 w-full py-12 col-span-full">
               Tidak ada kursus ditemukan.
             </div>
           </div>
